@@ -1,0 +1,17 @@
+[build]
+  # Build command
+  command = "npm run build"
+  
+  # Directory that contains the deploy-ready HTML files and assets
+  publish = "dist"
+
+# Redirect all requests to index.html for client-side routing
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+
+# Environment variables (set these in Netlify dashboard)
+# VITE_BACKEND_URL = your production backend URL
+# VITE_REACT_FRONT_END_URL = your Netlify URL
+# VITE_REACT_SUBDOMAIN = your Netlify URL
