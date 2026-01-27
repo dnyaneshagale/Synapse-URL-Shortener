@@ -16,7 +16,6 @@ const RegisterPage = () => {
         formState: {errors}
     } = useForm({
         defaultValues: {
-            username: "",
             email: "",
             password: "",
         },
@@ -26,6 +25,16 @@ const RegisterPage = () => {
     const registerHandler = async (data) => {
         setLoader(true);
         try {
+            // Validate email domain
+            const allowedDomains = ['gmail.com', 'yahoo.com', 'outlook.com', 'hotmail.com', 'icloud.com', 'protonmail.com'];
+            const emailDomain = data.email.split('@')[1]?.toLowerCase();
+            
+            if (!allowedDomains.includes(emailDomain)) {
+                toast.error('Please use a valid email provider (Gmail, Yahoo, Outlook, etc.)');
+                setLoader(false);
+                return;
+            }
+
             const { data: response } = await api.post(
                 "/api/auth/public/register",
                 data
@@ -34,8 +43,10 @@ const RegisterPage = () => {
             navigate("/login");
             toast.success("Registeration Successful!")
         } catch (error) {
-            console.log(error);
-            toast.error("Registeration Failed!")
+            console.log('Registration error:', error);
+            console.log('Error response:', error.response?.data);
+            const errorMessage = error.response?.data?.message || error.message || "Registration Failed!";
+            toast.error(errorMessage);
         } finally {
             setLoader(false);
         }
@@ -53,17 +64,6 @@ const RegisterPage = () => {
             <hr className='mt-2 mb-5 text-black'/>
 
             <div className="flex flex-col gap-3">
-                <TextField
-                    label="UserName"
-                    required
-                    id="username"
-                    type="text"
-                    message="*Username is required"
-                    placeholder="Type your username"
-                    register={register}
-                    errors={errors}
-                />
-
                 <TextField
                     label="Email"
                     required
