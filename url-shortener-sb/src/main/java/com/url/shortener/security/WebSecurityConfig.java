@@ -55,6 +55,7 @@ public class WebSecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .cors(Customizer.withDefaults())
                 .authorizeHttpRequests(auth -> auth
+                        .requestMatchers("/api/health").permitAll()
                         .requestMatchers("/api/auth").permitAll()
                         .requestMatchers("/api/auth/public/**").permitAll()
                         .requestMatchers("/api/urls/**").authenticated()
