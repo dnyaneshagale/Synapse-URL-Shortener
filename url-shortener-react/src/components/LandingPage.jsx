@@ -11,7 +11,7 @@ let desc =
 const LandingPage = () => {
   const navigate = useNavigate();
   const { token } = useStoreContext();
-  console.log("TOKEN FROM LANDING PAGE: " + token);
+
 
   const dashBoardNavigateHandler = () => {
     // Check if user is authenticated

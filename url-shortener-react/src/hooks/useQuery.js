@@ -30,10 +30,14 @@ export const useFetchMyShortUrls = (token, onError) => {
 };
 
 export const useFetchTotalClicks = (token, onError) => {
+    // Get current year and last year for a broader date range
+    const currentYear = new Date().getFullYear();
+    const lastYear = currentYear - 1;
+    
     return useQuery("url-totalclick",
          async () => {
             return await api.get(
-                "/api/urls/totalClicks?startDate=2024-01-01&endDate=2025-12-31",
+                `/api/urls/totalClicks?startDate=${lastYear}-01-01&endDate=${currentYear}-12-31`,
             {
                 headers: {
                     "Content-Type": "application/json",
